@@ -1,170 +1,210 @@
-import { useState } from "react";
-import { ShipWheelIcon } from "lucide-react";
-import { Link } from "react-router";
+"use client"
 
-import useSignUp from "../hooks/useSignUp";
+import { useState } from "react"
+import {  EyeIcon, EyeOffIcon, CheckIcon } from "lucide-react"
+import { Link } from "react-router"
+import useSignUp from "../hooks/useSignUp"
+import { LiaLanguageSolid } from "react-icons/lia";
 
 const SignUpPage = () => {
   const [signupData, setSignupData] = useState({
     fullName: "",
     email: "",
     password: "",
-  });
-
-  // This is how we did it at first, without using our custom hook
-  // const queryClient = useQueryClient();
-  // const {
-  //   mutate: signupMutation,
-  //   isPending,
-  //   error,
-  // } = useMutation({
-  //   mutationFn: signup,
-  //   onSuccess: () => queryClient.invalidateQueries({ queryKey: ["authUser"] }),
-  // });
-
-  // This is how we did it using our custom hook - optimized version
-  const { isPending, error, signupMutation } = useSignUp();
+  })
+  const [showPassword, setShowPassword] = useState(false)
+  const [agreedToTerms, setAgreedToTerms] = useState(false)
+  const { isPending, error, signupMutation } = useSignUp()
 
   const handleSignup = (e) => {
-    e.preventDefault();
-    signupMutation(signupData);
-  };
+    e.preventDefault()
+    if (!agreedToTerms) {
+      return
+    }
+    signupMutation(signupData)
+  }
 
   return (
-    <div
-      className="h-screen flex items-center justify-center p-4 sm:p-6 md:p-8"
-      data-theme="forest"
-    >
-      <div className="border border-primary/25 flex flex-col lg:flex-row w-full max-w-5xl mx-auto bg-base-100 rounded-xl shadow-lg overflow-hidden">
-        {/* SIGNUP FORM - LEFT SIDE */}
-        <div className="w-full lg:w-1/2 p-4 sm:p-8 flex flex-col">
-          {/* LOGO */}
-          <div className="mb-4 flex items-center justify-start gap-2">
-            <ShipWheelIcon className="size-9 text-primary" />
-            <span className="text-3xl font-bold font-mono bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary tracking-wider">
-              Streamify
-            </span>
-          </div>
+    <div className="relative flex items-center justify-center min-h-screen p-4 overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
+      {/* Background effects */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(14,165,233,0.1),rgba(0,0,0,0))]"></div>
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_70%,rgba(168,85,247,0.1),rgba(0,0,0,0))]"></div>
 
-          {/* ERROR MESSAGE IF ANY */}
-          {error && (
-            <div className="alert alert-error mb-4">
-              <span>{error.response.data.message}</span>
-            </div>
-          )}
+      <div className="relative z-10 w-full max-w-6xl mx-auto">
+        <div className="overflow-hidden border shadow-2xl bg-slate-900/80 backdrop-blur-xl border-slate-700/50 rounded-2xl sm:rounded-3xl">
+          <div className="flex flex-col lg:flex-row">
+            {/* Left side - Form */}
+            <div className="w-full p-6 lg:w-1/2 sm:p-8 lg:p-12">
+              {/* Logo */}
+              <div className="flex items-center mb-6 space-x-2 sm:mb-8 sm:space-x-3">
+                <div className="relative">
+                  <LiaLanguageSolid className="w-8 h-8 sm:w-10 sm:h-10 text-cyan-400" />
+                  <div className="absolute inset-0 rounded-full bg-cyan-400/20 blur-md"></div>
+                </div>
+                <span className="text-2xl font-bold text-transparent sm:text-3xl bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text">
+                  TalknLearn
+                </span>
+              </div>
 
-          <div className="w-full">
-            <form onSubmit={handleSignup}>
-              <div className="space-y-4">
-                <div>
-                  <h2 className="text-xl font-semibold">Create an Account</h2>
-                  <p className="text-sm opacity-70">
-                    Join Streamify and start your language learning adventure!
+              {/* Error message */}
+              {error && (
+                <div className="p-3 mb-4 border rounded-lg sm:mb-6 sm:p-4 bg-red-500/10 border-red-500/30 sm:rounded-xl">
+                  <p className="text-sm text-red-400">{error.response?.data?.message || "Signup failed"}</p>
+                </div>
+              )}
+
+              {/* Form */}
+              <form onSubmit={handleSignup} className="space-y-4 sm:space-y-6">
+                <div className="space-y-2">
+                  <h2 className="text-2xl font-bold text-white sm:text-3xl">Create Account</h2>
+                  <p className="text-sm text-slate-400 sm:text-base">
+                    Join TalknLearn and start your language learning adventure
                   </p>
                 </div>
 
-                <div className="space-y-3">
-                  {/* FULLNAME */}
-                  <div className="form-control w-full">
-                    <label className="label">
-                      <span className="label-text">Full Name</span>
-                    </label>
+                <div className="space-y-4">
+                  {/* Full Name */}
+                  <div className="space-y-2">
+                    <label className="block text-sm font-medium text-slate-300">Full Name</label>
                     <input
                       type="text"
                       placeholder="John Doe"
-                      className="input input-bordered w-full"
+                      className="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-slate-800/50 border border-slate-600/50 rounded-lg sm:rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all duration-300 text-sm sm:text-base"
                       value={signupData.fullName}
                       onChange={(e) => setSignupData({ ...signupData, fullName: e.target.value })}
                       required
                     />
                   </div>
-                  {/* EMAIL */}
-                  <div className="form-control w-full">
-                    <label className="label">
-                      <span className="label-text">Email</span>
-                    </label>
+
+                  {/* Email */}
+                  <div className="space-y-2">
+                    <label className="block text-sm font-medium text-slate-300">Email Address</label>
                     <input
                       type="email"
-                      placeholder="john@gmail.com"
-                      className="input input-bordered w-full"
+                      placeholder="john@example.com"
+                      className="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-slate-800/50 border border-slate-600/50 rounded-lg sm:rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all duration-300 text-sm sm:text-base"
                       value={signupData.email}
                       onChange={(e) => setSignupData({ ...signupData, email: e.target.value })}
                       required
                     />
                   </div>
-                  {/* PASSWORD */}
-                  <div className="form-control w-full">
-                    <label className="label">
-                      <span className="label-text">Password</span>
-                    </label>
-                    <input
-                      type="password"
-                      placeholder="********"
-                      className="input input-bordered w-full"
-                      value={signupData.password}
-                      onChange={(e) => setSignupData({ ...signupData, password: e.target.value })}
-                      required
-                    />
-                    <p className="text-xs opacity-70 mt-1">
-                      Password must be at least 6 characters long
-                    </p>
+
+                  {/* Password */}
+                  <div className="space-y-2">
+                    <label className="block text-sm font-medium text-slate-300">Password</label>
+                    <div className="relative">
+                      <input
+                        type={showPassword ? "text" : "password"}
+                        placeholder="••••••••"
+                        className="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-slate-800/50 border border-slate-600/50 rounded-lg sm:rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 transition-all duration-300 text-sm sm:text-base pr-10 sm:pr-12"
+                        value={signupData.password}
+                        onChange={(e) => setSignupData({ ...signupData, password: e.target.value })}
+                        required
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute transition-colors duration-300 -translate-y-1/2 right-3 top-1/2 text-slate-400 hover:text-white"
+                      >
+                        {showPassword ? (
+                          <EyeOffIcon className="w-4 h-4 sm:w-5 sm:h-5" />
+                        ) : (
+                          <EyeIcon className="w-4 h-4 sm:w-5 sm:h-5" />
+                        )}
+                      </button>
+                    </div>
+                    <p className="text-xs text-slate-500">Password must be at least 6 characters long</p>
                   </div>
 
-                  <div className="form-control">
-                    <label className="label cursor-pointer justify-start gap-2">
-                      <input type="checkbox" className="checkbox checkbox-sm" required />
-                      <span className="text-xs leading-tight">
-                        I agree to the{" "}
-                        <span className="text-primary hover:underline">terms of service</span> and{" "}
-                        <span className="text-primary hover:underline">privacy policy</span>
+                  {/* Terms checkbox */}
+                  <div className="flex items-start space-x-3">
+                    <div className="relative flex-shrink-0 mt-0.5">
+                      <input
+                        type="checkbox"
+                        id="terms"
+                        checked={agreedToTerms}
+                        onChange={(e) => setAgreedToTerms(e.target.checked)}
+                        className="sr-only"
+                        required
+                      />
+                      <div
+                        onClick={() => setAgreedToTerms(!agreedToTerms)}
+                        className={`w-4 h-4 sm:w-5 sm:h-5 rounded border-2 cursor-pointer transition-all duration-300 flex items-center justify-center ${
+                          agreedToTerms ? "bg-cyan-500 border-cyan-500" : "border-slate-600 hover:border-slate-500"
+                        }`}
+                      >
+                        {agreedToTerms && <CheckIcon className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-white" />}
+                      </div>
+                    </div>
+                    <label htmlFor="terms" className="text-xs leading-tight cursor-pointer sm:text-sm text-slate-400">
+                      I agree to the{" "}
+                      <span className="transition-colors duration-300 text-cyan-400 hover:text-cyan-300">
+                        Terms of Service
+                      </span>{" "}
+                      and{" "}
+                      <span className="transition-colors duration-300 text-cyan-400 hover:text-cyan-300">
+                        Privacy Policy
                       </span>
                     </label>
                   </div>
+
+                  {/* Submit button */}
+                  <button
+                    type="submit"
+                    disabled={isPending || !agreedToTerms}
+                    className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white font-semibold py-2.5 sm:py-3 px-4 rounded-lg sm:rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-cyan-500/25 text-sm sm:text-base"
+                  >
+                    {isPending ? (
+                      <div className="flex items-center justify-center space-x-2">
+                        <div className="w-4 h-4 border-2 rounded-full sm:w-5 sm:h-5 border-white/30 border-t-white animate-spin"></div>
+                        <span>Creating Account...</span>
+                      </div>
+                    ) : (
+                      "Create Account"
+                    )}
+                  </button>
+
+                  {/* Login link */}
+                  <div className="text-center">
+                    <p className="text-sm text-slate-400 sm:text-base">
+                      Already have an account?{" "}
+                      <Link
+                        to="/login"
+                        className="font-semibold transition-colors duration-300 text-cyan-400 hover:text-cyan-300"
+                      >
+                        Sign in
+                      </Link>
+                    </p>
+                  </div>
                 </div>
+              </form>
+            </div>
 
-                <button className="btn btn-primary w-full" type="submit">
-                  {isPending ? (
-                    <>
-                      <span className="loading loading-spinner loading-xs"></span>
-                      Loading...
-                    </>
-                  ) : (
-                    "Create Account"
-                  )}
-                </button>
-
-                <div className="text-center mt-4">
-                  <p className="text-sm">
-                    Already have an account?{" "}
-                    <Link to="/login" className="text-primary hover:underline">
-                      Sign in
-                    </Link>
+            {/* Right side - Illustration */}
+            <div className="items-center justify-center hidden w-full p-8 lg:flex lg:w-1/2 bg-gradient-to-br from-cyan-500/10 to-blue-500/10 lg:p-12">
+              <div className="space-y-6 text-center lg:space-y-8">
+                <div className="relative max-w-md mx-auto">
+                  <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 rounded-2xl lg:rounded-3xl blur-3xl"></div>
+                  <img
+                    src="/i.png"
+                    alt="Language connection illustration"
+                    className="relative z-10 w-full h-auto rounded-xl lg:rounded-2xl"
+                  />
+                </div>
+                <div className="space-y-3 lg:space-y-4">
+                  <h2 className="text-xl font-bold text-white lg:text-2xl">Connect with language partners worldwide</h2>
+                  <p className="text-sm leading-relaxed text-slate-400 lg:text-base">
+                    Practice conversations, make friends, and improve your language skills with native speakers from
+                    around the globe
                   </p>
                 </div>
               </div>
-            </form>
-          </div>
-        </div>
-
-        {/* SIGNUP FORM - RIGHT SIDE */}
-        <div className="hidden lg:flex w-full lg:w-1/2 bg-primary/10 items-center justify-center">
-          <div className="max-w-md p-8">
-            {/* Illustration */}
-            <div className="relative aspect-square max-w-sm mx-auto">
-              <img src="/i.png" alt="Language connection illustration" className="w-full h-full" />
-            </div>
-
-            <div className="text-center space-y-3 mt-6">
-              <h2 className="text-xl font-semibold">Connect with language partners worldwide</h2>
-              <p className="opacity-70">
-                Practice conversations, make friends, and improve your language skills together
-              </p>
             </div>
           </div>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default SignUpPage;
+export default SignUpPage
