@@ -27,16 +27,13 @@ You can view the live preview of the project here:
 ### 4. **Global Language Exchange**
 - Join rooms to practice different languages with peers worldwide.
 
-### 5. **Customizable Themes**
-- Choose from 32 unique UI themes to personalize your experience.
-
-### 6. **Error Handling**
+### 5. **Error Handling**
 - Graceful error management on both frontend and backend.
 
-### 7. **Modern UI/UX**
+### 6. **Modern UI/UX**
 - Responsive and intuitive design powered by TailwindCSS and Zustand.
 
-### 8. **Free Deployment**
+### 7. **Free Deployment**
 - Fully deployed and accessible online at no cost.
 
 ---
