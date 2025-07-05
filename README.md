@@ -33,8 +33,9 @@ You can view the live preview of the project here:
 ### 6. **Modern UI/UX**
 - Responsive and intuitive design powered by TailwindCSS and Zustand.
 
-### 7. **Free Deployment**
-- Fully deployed and accessible online at no cost.
+### 7. **Responsive Design**
+- Ensures compatibility across devices, including desktops, tablets, and mobile phones.
+- Built with modern UI/UX principles for a user-friendly experience.
 
 ---
 
