@@ -6,7 +6,7 @@
 
 ## Live Link 🎉  
 You can view the live preview of the project here:  
-👉 [Live Preview](https://code-ide-pro-2.onrender.com)
+👉 [Live Preview](https://streamify-1sc1.onrender.com)
 
 ---
 
