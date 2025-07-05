@@ -72,9 +72,9 @@ You can view the live preview of the project here:
 git clone https://github.com/Irfanabdul1108/talknlearn.git
 ```
 
-2. **Navigate to the server folder**
+2. **Navigate to the Backend folder**
 ```bash
-cd talknlearn/server
+cd talknlearn/backend
 ```
 
 3. **Setup Environment Variables**  
@@ -90,9 +90,9 @@ npm install
 npm run dev
 ```
 
-6. **Navigate to the client folder**
+6. **Navigate to the Frontend folder**
 ```bash
-cd ../client
+cd ../frontend
 ```
 
 7. **Setup Frontend Environment Variables**
@@ -108,7 +108,7 @@ npm run dev
 ```
 
 10. **Visit the App**
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+Open [http://localhost:5173](http://localhost:5173) in your browser.
 
 ---
 
