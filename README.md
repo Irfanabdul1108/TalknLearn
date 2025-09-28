@@ -92,10 +92,10 @@ npm run dev
 
 6. **Navigate to the Frontend folder**
 ```bash
-cd ../frontend
+cd talknlearn/frontend 
 ```
 
-7. **Setup Frontend Environment Variables**
+7. **Setup Frontend Environment Variables**(if any)
 
 8. **Install Frontend Dependencies**
 ```bash
